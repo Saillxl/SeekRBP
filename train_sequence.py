@@ -42,10 +42,7 @@ class PtFeatureDataset(Data.Dataset):
                 idx = len(self.items)
                 self.items.append((neg_path, 0, sample))
                 self.neg_indices.append(idx)
-
-
         probe = torch.load(self.items[0][0], map_location="cpu")
-
         self.seq_len = probe.shape[0]
         self.embed_dim = probe.shape[1]
 
@@ -57,10 +54,12 @@ class PtFeatureDataset(Data.Dataset):
         x = torch.load(path, map_location="cpu").float()
         return x, torch.tensor(y, dtype=torch.long), idx
 
+
 def make_loader(ds, indices, batch_size=256, num_workers=0, shuffle=True, drop_last=True):
     subset = Data.Subset(ds, indices)
     return Data.DataLoader(subset, batch_size=batch_size, shuffle=shuffle,
                            num_workers=num_workers, drop_last=drop_last)
+
 
 def evaluate(model, dataloader, device):
     model.eval()
@@ -88,6 +87,7 @@ def evaluate(model, dataloader, device):
     f1 = f1_score(y_true, y_pred, average='macro')
     prec = precision_score(y_true, y_pred, average='macro')
     return avg_loss, acc, f1, prec, y_true, y_pred
+
 
 class LossTracker:
     def __init__(self, dataset):
@@ -221,7 +221,6 @@ def main():
     tracker = LossTracker(dataset=ds)
     epoch_in_window = 0
 
-    start = time.time()
     print("Training started...")
 
     for epoch in range(1, args.nepoch + 1):
@@ -293,16 +292,9 @@ def main():
 
             # Save the ID of the most difficult negative samples to a file
             tracker.save_hard_negatives(k=10000, filepath=os.path.join(args.out, 'hard.txt'))
-
             tracker.reset()
             epoch_in_window = 0
-    end = time.time()
-    if torch.cuda.is_available():
-        torch.cuda.synchronize()
-    total = end - start
-
     print("Done.")
 
 if __name__ == "__main__":
     main()
-
