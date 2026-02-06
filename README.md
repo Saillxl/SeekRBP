@@ -49,7 +49,7 @@ First, specify the input file path (fasta_path) and the save path (save_dir). Th
 python extract_esm2.py
 ```
 ### 🚀 2. Training
-Run train.py  
+Run train_sequence.py  
 ```
 python train_sequence.py \
   --pos_txt ./dataset/pos_trainval/train_set_fold_1.txt \
@@ -61,9 +61,16 @@ python train_sequence.py \
   --out ./results/train_sequence/ \
 ```
 ### 🧪 3. Testing
-Run test.py
+Run test_sequence.py
 ```
-python test.py --checkpoint 'output/BUSI/SAM2-UNet-70.pth' --test_image_path 'data/BUSI/test/img.yaml' --test_gt_path 'data/BUSI/test/ann.yaml' --save_path 'output/'
+python test_sequence.py \
+  --pos_txt ./dataset/pos_trainval_sets/test_set.txt \
+  --neg_txt ./dataset/neg_trainval_sets/test_set.txt \
+  --pos_dir ./sequence_features/pos_esm2_fea \
+  --neg_dir ./sequence_features/neg_esm2_fea \
+  --load_model ./results/train_sequence/transformer_binary.pth \
+  --out ./results/test_sequence
+
 ```
 
 ## 📌 Citation
