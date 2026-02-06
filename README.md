@@ -1,6 +1,4 @@
 # SeekRBP
-
-
 📄 Published in ****  
 🔗 [Paper Link](https://ieeexplore.ieee.org/document/11129883)  
 
@@ -24,38 +22,35 @@ Receptor-binding proteins (RBPs) are key mediators of phage–host interactions,
 - **Bandit-based adaptive negative sampling** to efficiently focus on hard and informative negatives  
 - **Joint sequence–structure modeling** to better represent functional determinants of receptor binding  
 - **Adaptive fusion mechanism** for effective cross-modal feature integration  
-
-
 ---
 
 ## 📂 Clone Repository
-
 ```bash
 git clone https://github.com/Saillxl/SeekRBP.git
 cd SeekRBP/
 ```
-
 ---
 
 ## 📑 Dataset Preparation
-
 The dataset should follow the format below. 
-
-```
 
 
 ## ⚙️ Requirements
 We recommend creating a clean environment:
-
 ```
 conda create -n SeekRBP python=3.10
 conda activate SeekRBP
 pip install -r requirements.txt
 ```
 
-## Sequence Only
+## Only have sequence information but no structural information
 ### 🚀 Training
-1. Extract sequence features using ESM2
+1. Extract sequence features using [ESM2](https://github.com/facebookresearch/esm):  
+First, specify the input file path (fasta_path) and the save path (save_dir). Then, run extract_esm2.py.
+```
+python extract_esm2.py
+```
+
 2. Run train.py
 ```
 python train.py --hiera_path './checkpoints/sam2_hiera_large.pt' --train_image_path 'data/BUSI/train/img.yaml' --train_mask_path 'data/BUSI/train/ann.yaml' --save_path 'output/BUSI' 
@@ -74,7 +69,7 @@ If you find this repository useful, please cite our paper(bibtex):
 ```
 
 ## 🙏 Acknowledgement
+[ESM2](https://github.com/facebookresearch/esm)
 
-
-Public ultrasound datasets (e.g., BUSI)
+Public datasets (e.g., )
 ##
