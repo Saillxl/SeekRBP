@@ -4,12 +4,10 @@
 
 ---
 
-## 📖 Introduction
-
-![framework](./framework.png)
-
-## Introduction
-
+## 📖🧠 Introduction
+<p align="center">
+  <img src="./framework.png" alt="framework" width="800">
+</p>
 Bacteriophages are the most abundant and genetically diverse biological entities on Earth and play a central role in regulating bacterial populations and shaping microbial ecosystems. Many important applications of phages, including phage therapy, biocontrol, and microbiome engineering, rely on their specific interactions with bacterial hosts. These interactions are encoded in phage genomes, which contain a large number of proteins with potential biological and biotechnological value. However, most phage-encoded proteins remain poorly annotated, limiting the effective use of phages, especially under the growing threat of antimicrobial resistance.
 
 Receptor-binding proteins (RBPs) are key mediators of phage–host interactions, as they initiate infection by recognizing and binding bacterial surface receptors. Accurate identification of RBPs is therefore essential for host prediction and downstream phage applications. This task is challenging due to extreme sequence diversity, rapid phage–host co-evolution, and severe class imbalance, where RBPs represent only a small fraction of phage proteins.
@@ -44,19 +42,25 @@ pip install -r requirements.txt
 ```
 
 ## Only have sequence information but no structural information
-### 🚀 Training
-1. Extract sequence features using [ESM2](https://github.com/facebookresearch/esm):  
+### 🛠️ 1. Preparae features
+ Extract sequence features using [ESM2](https://github.com/facebookresearch/esm):  
 First, specify the input file path (fasta_path) and the save path (save_dir). Then, run extract_esm2.py.
 ```
 python extract_esm2.py
 ```
-
-2. Run train.py
+### 🚀 2. Training
+Run train.py  
 ```
-python train.py --hiera_path './checkpoints/sam2_hiera_large.pt' --train_image_path 'data/BUSI/train/img.yaml' --train_mask_path 'data/BUSI/train/ann.yaml' --save_path 'output/BUSI' 
+python train_sequence.py \
+  --pos_txt ./dataset/pos_trainval/train_set_fold_1.txt \
+  --neg_txt ./dataset/neg_trainval/train_set_fold_1.txt \
+  --pos_dir ./sequence_features/pos_esm2_fea \
+  --neg_dir ./sequence_features/neg_esm2_fea \
+  --val_pos_txt ./dataset/pos_trainval/val_set_fold_1.txt \
+  --val_neg_txt ./dataset/neg_trainval/val_set_fold_1.txt \
+  --out ./results/train_sequence/ \
 ```
-
-### 🧪 Testing
+### 🧪 3. Testing
 Run test.py
 ```
 python test.py --checkpoint 'output/BUSI/SAM2-UNet-70.pth' --test_image_path 'data/BUSI/test/img.yaml' --test_gt_path 'data/BUSI/test/ann.yaml' --save_path 'output/'
