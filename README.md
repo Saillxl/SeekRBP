@@ -10,30 +10,29 @@
 
 ![framework](./framework.png)
 
-## Introduction
+Bacteriophages are the most abundant and genetically diverse biological entities on Earth and play a central role in regulating bacterial populations and shaping microbial communities. Many of their ecological and applied functions, including phage therapy, biocontrol, and microbiome engineering, rely on specific interactions with bacterial hosts. These interactions are encoded in phage genomes, which contain a large number of proteins with antimicrobial and biotechnological potential. However, most phage-encoded proteins remain poorly characterized, creating a major obstacle to the effective use of phages, particularly in the context of rising antimicrobial resistance.
 
-Bacteriophages are the most abundant and genetically diverse biological entities on Earth, playing a fundamental role in regulating bacterial populations and shaping microbial communities across diverse ecosystems. Many of their ecological and applied functions—including phage therapy, biocontrol, and microbiome engineering—are mediated through highly specific interactions with bacterial hosts. These interactions are encoded in phage genomes, which contain a vast repertoire of proteins with antimicrobial and biotechnological potential. However, the majority of phage-encoded proteins remain poorly characterized, creating a major bottleneck for the effective use of phages in therapeutic, industrial, and agricultural applications, particularly in the era of rising antimicrobial resistance.
+Receptor-binding proteins (RBPs) are key mediators of phage–host interactions, as they initiate infection by recognizing and binding to host surface receptors. RBPs largely determine host specificity and infection range, making their accurate identification essential for applications such as host prediction and rational phage design. Despite their importance, RBP identification is challenging due to extreme sequence diversity, rapid phage–host co-evolution, and severe class imbalance, since RBPs constitute only a small fraction of phage-encoded proteins.
 
-Among phage proteins, **receptor-binding proteins (RBPs)** play a central role by mediating the initial adsorption step of infection through specific recognition of host surface receptors. As key determinants of host specificity and infection range, RBPs are critical for applications such as host prediction, rational phage therapy design, and phage engineering. Nevertheless, accurate RBP identification remains challenging due to extreme sequence diversity, rapid evolutionary turnover driven by phage–host co-evolution, and severe class imbalance in phage genomes, where RBPs constitute only a small fraction of encoded proteins.
-
-**SeekRBP** addresses these challenges by reframing RBP identification as a *sequential decision-making problem* rather than a static classification task. The framework integrates sequence-based and structure-based protein representations with a reinforcement learning–inspired adaptive sampling strategy that dynamically prioritizes informative negative samples during training. By coupling multimodal representation learning with adaptive negative sampling, SeekRBP achieves improved recall and robustness in highly imbalanced settings, enabling more reliable large-scale RBP discovery.
+**SeekRBP** addresses these challenges by reframing RBP identification as a *sequential decision-making problem*. The framework integrates sequence-based and structure-based protein representations with a reinforcement learning–inspired adaptive sampling strategy that dynamically prioritizes informative negative samples. This combination improves recall and robustness in highly imbalanced settings, enabling more reliable large-scale RBP discovery.
 
 ### Key Innovations
 
-- **Sequential decision formulation for RBP identification**  
-  SeekRBP models negative sample selection as a dynamic decision-making process, explicitly accounting for the evolving informativeness of negative samples during training.
+- **Sequential decision perspective**  
+  RBP identification is formulated as a dynamic decision-making process that accounts for evolving negative sample informativeness.
 
-- **Bandit-based adaptive negative sampling**  
-  A multi-armed bandit strategy is employed to balance exploration and exploitation, allowing the model to focus on hard and informative negatives without exhaustive sampling.
+- **Bandit-based adaptive sampling**  
+  A multi-armed bandit strategy balances exploration and exploitation to focus training on hard and informative negatives.
 
-- **Multimodal sequence–structure integration**  
-  SeekRBP jointly leverages one-dimensional sequence representations and three-dimensional structural features to better capture functional determinants of receptor binding.
+- **Sequence–structure integration**  
+  Both sequence and structural features are jointly leveraged to capture functional determinants of receptor binding.
 
-- **Adaptive expert fusion mechanism**  
-  A dedicated fusion module combines additive and multiplicative interactions between sequence and structure features, enabling flexible and expressive cross-modal integration.
+- **Adaptive feature fusion**  
+  An expert fusion mechanism flexibly models interactions between sequence and structure representations.
 
-- **Scalable and practical design**  
-  The framework is computationally efficient and applicable to large-scale phage datasets, making it suitable for real-world phage annotation and downstream host–phage interaction analyses.
+- **Scalable design**  
+  The framework is efficient and suitable for large-scale phage protein annotation and downstream analyses.
+
 
 
 ---
