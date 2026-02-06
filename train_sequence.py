@@ -223,7 +223,7 @@ def main():
 
     start = time.time()
     print("Training started...")
-    print_resource_usage()
+
     for epoch in range(1, args.nepoch + 1):
         model.train()
         running_loss = 0.0
@@ -305,3 +305,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
