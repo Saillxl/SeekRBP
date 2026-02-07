@@ -79,10 +79,10 @@ First, specify the input file path (fasta_path) and the save path (save_dir). Th
 python extract_esm2.py
 ```
 ➡️ Extract structural features using [Saprot](https://github.com/westlake-repl/SaProt):  
-① Obtain protein structures (.pdb) using [AlphaFold](https://github.com/google-deepmind/alphafold) and [ColabFold](https://github.com/sokrypton/ColabFold). If you already have structures, you can skip this step.  
-② Download the [Saprot](https://github.com/westlake-repl/SaProt) project, and then place the "batch_saprot_from_structure.py" in the Saprot project directory. Finally, run batch_saprot_from_structure.py.
+① Obtain protein structures (.pdb) using [AlphaFold](https://github.com/google-deepmind/alphafold) and [ColabFold](https://github.com/sokrypton/ColabFold). If you already have structures, you can skip this step.    
+② Download the [Saprot](https://github.com/westlake-repl/SaProt) project, and then place the "extract_saprot.py" in the Saprot project directory. Finally, run batch_saprot_from_structure.py.
 ```
-python batch_saprot_from_structure.py \
+python extract_saprot.py \
   --input_dir fasta_path \
   --output_dir ./structure_features
 ```
