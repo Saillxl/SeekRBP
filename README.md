@@ -41,9 +41,9 @@ conda activate SeekRBP
 pip install -r requirements.txt
 ```
 
-## Only have sequence information but no structural information
+## 🔹- ▶ Use sequential information only
 ### 🛠️ 1. Preparae features
- Extract sequence features using [ESM2](https://github.com/facebookresearch/esm):  
+Extract sequential features using [ESM2](https://github.com/facebookresearch/esm):  
 First, specify the input file path (fasta_path) and the save path (save_dir). Then, run extract_esm2.py.
 ```
 python extract_esm2.py
@@ -70,9 +70,47 @@ python test_sequence.py \
   --neg_dir ./sequence_features/neg_esm2_fea \
   --load_model ./results/train_sequence/transformer_binary.pth \
   --out ./results/test_sequence
-
+```
+## 🔸- ▶ Use sequential information and structural information
+### 🛠️ 1. Preparae features
+➡️ Extract sequential features using [ESM2](https://github.com/facebookresearch/esm):  
+First, specify the input file path (fasta_path) and the save path (save_dir). Then, run extract_esm2.py.
+```
+python extract_esm2.py
+```
+➡️ Extract structural features using [Saprot](https://github.com/westlake-repl/SaProt):  
+① Obtain protein structures (.pdb) using [AlphaFold](https://github.com/google-deepmind/alphafold) and [ColabFold](https://github.com/sokrypton/ColabFold). If you already have structures, you can skip this step.  
+② Download the [Saprot](https://github.com/westlake-repl/SaProt) project, and then place the "batch_saprot_from_structure.py" in the Saprot project directory. Finally, run batch_saprot_from_structure.py.
+```
+python batch_saprot_from_structure.py \
+  --input_dir fasta_path \
+  --output_dir ./structure_features
 ```
 
+### 🚀 2. Training
+Run train_dual.py  
+```
+python train_sequence.py \
+  --pos_txt ./dataset/pos_trainval/train_set_fold_1.txt \
+  --neg_txt ./dataset/neg_trainval/train_set_fold_1.txt \
+  --pos_dir ./sequence_features/pos_esm2_fea \
+  --neg_dir ./sequence_features/neg_esm2_fea \
+  --val_pos_txt ./dataset/pos_trainval/val_set_fold_1.txt \
+  --val_neg_txt ./dataset/neg_trainval/val_set_fold_1.txt \
+  --out ./results/train_sequence/ \
+```
+### 🧪 3. Testing
+Run test_dual.py
+```
+python test_sequence.py \
+  --pos_txt ./dataset/pos_trainval_sets/test_set.txt \
+  --neg_txt ./dataset/neg_trainval_sets/test_set.txt \
+  --pos_dir ./sequence_features/pos_esm2_fea \
+  --neg_dir ./sequence_features/neg_esm2_fea \
+  --load_model ./results/train_sequence/transformer_binary.pth \
+  --out ./results/test_sequence
+
+```
 ## 📌 Citation
 If you find this repository useful, please cite our paper(bibtex):
 ```
@@ -81,6 +119,7 @@ If you find this repository useful, please cite our paper(bibtex):
 
 ## 🙏 Acknowledgement
 [ESM2](https://github.com/facebookresearch/esm)
-
-Public datasets (e.g., )
+[AlphaFold](https://github.com/google-deepmind/alphafold)
+[ColabFold](https://github.com/sokrypton/ColabFold)
+[Saprot](https://github.com/westlake-repl/SaProt)
 ##
