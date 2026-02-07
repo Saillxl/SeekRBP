@@ -115,25 +115,21 @@ python extract_saprot.py \
 ### 🚀 2. Training
 Run train_dual.py  
 ```
-python train_sequence.py \
-  --pos_txt ./dataset/pos_trainval/train_set_fold_1.txt \
-  --neg_txt ./dataset/neg_trainval/train_set_fold_1.txt \
-  --pos_dir ./sequence_features/pos_esm2_fea \
-  --neg_dir ./sequence_features/neg_esm2_fea \
-  --val_pos_txt ./dataset/pos_trainval/val_set_fold_1.txt \
-  --val_neg_txt ./dataset/neg_trainval/val_set_fold_1.txt \
-  --out ./results/train_dual/ \
+python train_dual.py \
+  --pos3d ./structure_features/pos_train \
+  --neg3d ./structure_features/neg_train \
+  --all1d ./sequence_features/all_feature \
+  --outdir ./results/train_dual
 ```
 ### 🧪 3. Testing
 Run test_dual.py
 ```
-python test_sequence.py \
-  --pos_txt ./dataset/pos_trainval_sets/test_set.txt \
-  --neg_txt ./dataset/neg_trainval_sets/test_set.txt \
-  --pos_dir ./sequence_features/pos_esm2_fea \
-  --neg_dir ./sequence_features/neg_esm2_fea \
-  --load_model ./results/train_sequence/transformer_binary.pth \
-  --out ./results/test_sequence
+python test_dual.py \
+  --pos3d ./structure_features/pos_test \
+  --neg3d ./structure_features/neg_test \
+  --all1d ./sequence_features/all_feature \
+  --ckpt ./results/train_dual/model.pth \
+  --outdir ./results/test_dual
 
 ```
 ## 📌 Citation
