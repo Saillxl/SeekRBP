@@ -41,7 +41,7 @@ conda activate SeekRBP
 pip install -r requirements.txt
 ```
 
-## 🟠 Use sequential information only - ▶
+## 🟠 Use sequential information only
 ### 🛠️ 1. Preparae features
 Extract sequential features using [ESM2](https://github.com/facebookresearch/esm):  
 First, specify the input file path (fasta_path) and the save path (save_dir). Then, run extract_esm2.py.
@@ -71,7 +71,8 @@ python test_sequence.py \
   --load_model ./results/train_sequence/transformer_binary.pth \
   --out ./results/test_sequence
 ```
-## 🟢 Use structural information only- ▶
+## 🟢 Use structural information only
+This part does not use dynamic negative sampling.
 ### 🛠️ 1. Preparae features
 Extract structural features using [Saprot](https://github.com/westlake-repl/SaProt):  
 ① Obtain protein structures (.pdb) using [AlphaFold](https://github.com/google-deepmind/alphafold) and [ColabFold](https://github.com/sokrypton/ColabFold). If you already have structures, you can skip this step.    
@@ -83,27 +84,30 @@ python extract_saprot.py \
 ```
 ### 🚀 2. Training
 Run train_structure.py  
-
+```
+python train_structure.py \
+  --pos3d ./structure_features/pos_train \
+  --neg3d ./structure_features/neg_train \
+  --outdir ./results/train_structure
+```
 ### 🧪 3. Testing
 Run test_structure.py
 ```
-python test_structure.py \
-  --pos_txt ./dataset/pos_trainval_sets/test_set.txt \
-  --neg_txt ./dataset/neg_trainval_sets/test_set.txt \
-  --pos_dir ./sequence_features/pos_esm2_fea \
-  --neg_dir ./sequence_features/neg_esm2_fea \
-  --load_model ./results/train_sequence/transformer_binary.pth \
-  --out ./results/test_sequence
+python test_dual.py \
+  --pos3d ./structure_features/pos_test \
+  --neg3d ./structure_features/neg_test \
+  --ckpt ./results/train_structure/transformer_binary.pth \
+  --outdir ./results/test_structure
 ```
 
-## 🔵 Use sequential information and structural information - ▶
+## 🔵 Use sequential information and structural information
 ### 🛠️ 1. Preparae features
-➡️ Extract sequential features using [ESM2](https://github.com/facebookresearch/esm):  
+- ▶ Extract sequential features using [ESM2](https://github.com/facebookresearch/esm):  
 First, specify the input file path (fasta_path) and the save path (save_dir). Then, run extract_esm2.py.
 ```
 python extract_esm2.py
 ```
-➡️ Extract structural features using [Saprot](https://github.com/westlake-repl/SaProt):  
+- ▶ Extract structural features using [Saprot](https://github.com/westlake-repl/SaProt):  
 ① Obtain protein structures (.pdb) using [AlphaFold](https://github.com/google-deepmind/alphafold) and [ColabFold](https://github.com/sokrypton/ColabFold). If you already have structures, you can skip this step.    
 ② Download the [Saprot](https://github.com/westlake-repl/SaProt) project, and then place the "extract_saprot.py" in the Saprot project directory. Finally, run batch_saprot_from_structure.py.
 ```
@@ -128,7 +132,7 @@ python test_dual.py \
   --pos3d ./structure_features/pos_test \
   --neg3d ./structure_features/neg_test \
   --all1d ./sequence_features/all_feature \
-  --ckpt ./results/train_dual/model.pth \
+  --ckpt ./results/train_dual/transformer_binary.pth \
   --outdir ./results/test_dual
 
 ```
@@ -139,8 +143,8 @@ If you find this repository useful, please cite our paper(bibtex):
 ```
 
 ## 🙏 Acknowledgement
-[ESM2](https://github.com/facebookresearch/esm)
-[AlphaFold](https://github.com/google-deepmind/alphafold)
-[ColabFold](https://github.com/sokrypton/ColabFold)
-[Saprot](https://github.com/westlake-repl/SaProt)
+[ESM2](https://github.com/facebookresearch/esm) 
+[AlphaFold](https://github.com/google-deepmind/alphafold) 
+[ColabFold](https://github.com/sokrypton/ColabFold) 
+[Saprot](https://github.com/westlake-repl/SaProt) 
 ##
