@@ -89,10 +89,7 @@ def evaluate(model, dataloader, device):
     acc = accuracy_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred, average='macro')
     prec = precision_score(y_true, y_pred, average='macro', zero_division=0)
-    if save_probs:
-        return avg_loss, acc, f1, prec, y_true, y_pred, y_score
-    else:
-        return avg_loss, acc, f1, prec, y_true, y_pred, None
+    return avg_loss, acc, f1, prec, y_true, y_pred, None
 
 
 def main():
