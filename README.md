@@ -30,7 +30,7 @@ cd SeekRBP/
 ---
 
 ## 📑 Dataset Preparation
-The original protein files are located in the "dataset" folder.
+👉 **[Download here](https://drive.google.com/drive/folders/1-zqY5z5hV30-IFKK46SElF9awa3Zf4qR)**
 
 
 ## ⚙️ Requirements
