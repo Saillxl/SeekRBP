@@ -132,7 +132,7 @@ def main():
     parser.add_argument('--num_workers', type=int, default=0)
     parser.add_argument('--device', default=None, help='cpu / cuda / cuda:0 ...')
     parser.add_argument('--amp', action='store_true')
-    parser.add_argument('--ckpt', required=True, help='Model weight .pth path')
+    parser.add_argument('--ckpt', default='./checkpoint/structure/best.pth', help='Model weight .pth path')
     parser.add_argument('--out', default='./results/test_structure', help='Directory for saving test logs and reports')
     parser.add_argument('--save_pred_csv', default=None, help='Optional: Export individual sample predictions CSV')
     args = parser.parse_args()
@@ -170,7 +170,7 @@ def main():
     print(f"Loaded checkpoint from: {args.ckpt}")
 
     with torch.cuda.amp.autocast(enabled=(use_cuda and args.amp)):
-        test_loss, test_acc, test_f1, test_prec, y_true, y_pred, paths, y_score = evaluate(
+        test_loss, test_acc, test_f1, test_prec, y_true, y_pred, paths = evaluate(
     model, test_loader, device
     )
 
