@@ -64,8 +64,6 @@ python train_sequence.py \
 Run test_sequence.py
 ```
 python test_sequence.py \
-  --pos_txt ./dataset/pos_trainval_sets/test_set.txt \
-  --neg_txt ./dataset/neg_trainval_sets/test_set.txt \
   --pos_dir ./sequence_features/pos_esm2_fea \
   --neg_dir ./sequence_features/neg_esm2_fea \
   --load_model ./results/train_sequence/transformer_binary.pth \
