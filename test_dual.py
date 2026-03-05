@@ -76,7 +76,7 @@ class DualDataset(Data.Dataset):
         b = np.load(p3, mmap_mode="r")
         if b.ndim == 3 and b.shape[0] == 1:
             b = b[0]
-        x3 = torch.tensor(np.asarray(b, dtype=np.float32, order="C", copy=True), dtype=torch.float32)
+        x3 = torch.tensor(np.array(b, dtype=np.float32, order="C", copy=True), dtype=torch.float32)
         return x1, x3, torch.tensor(y, dtype=torch.long), (p1, p3, key)
 
 
@@ -188,7 +188,7 @@ def main():
 
     # Running parameters
     ap.add_argument("--bs", type=int, default=64)
-    ap.add_argument("--ckpt", type=str, required=True, help="Trained best_model.pth or other checkpoint")
+    ap.add_argument("--ckpt", type=str, default='./checkpoint/dual/best.pth', help="Trained best_model.pth or other checkpoint")
     ap.add_argument("--save_probs", action="store_true", help="Append probability for each class (only binary classification) to CSV")
     args = ap.parse_args()
 
