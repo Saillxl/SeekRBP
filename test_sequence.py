@@ -113,7 +113,7 @@ def main():
     parser.add_argument('--num_workers', type=int, default=0)
     parser.add_argument('--device', default=None, help='cpu / cuda / cuda:0 ...')
     parser.add_argument('--load_model', default='./checkpoint/sequence/best.pth', help='Path to pre-trained model')
-    parser.add_argument('--out', default='out', help='directory to save outputs')
+    parser.add_argument('--out', default='./results/test_sequence', help='directory to save outputs')
 
     args = parser.parse_args()
     set_seed(args.seed)
