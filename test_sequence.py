@@ -6,7 +6,7 @@ import torch
 from torch import nn
 from sklearn.metrics import classification_report, accuracy_score, f1_score, precision_score
 from torch.utils.data import DataLoader
-from model import *  
+from model import *
 
 
 def set_seed(seed=42):
@@ -50,13 +50,13 @@ class PtFeatureDataset(torch.utils.data.Dataset):
             x = torch.load(path, map_location="cpu").float()  # [L, D]
             return x, torch.tensor(y, dtype=torch.long)
         except FileNotFoundError:
-            return None  
+            return None
 
 
 def collate_skip_none(batch):
     batch = [b for b in batch if b is not None]
     if not batch:
-        return None  
+        return None
     xs, ys = zip(*batch)
     return torch.stack(xs), torch.tensor(ys)
 
@@ -64,7 +64,7 @@ def collate_skip_none(batch):
 def evaluate(model, dataloader, device):
     model.eval()
     y_true, y_pred = [], []
-    y_score = [] 
+    y_score = []
     total_loss = 0.0
     criterion = torch.nn.CrossEntropyLoss()
 
@@ -112,7 +112,7 @@ def main():
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--num_workers', type=int, default=0)
     parser.add_argument('--device', default=None, help='cpu / cuda / cuda:0 ...')
-    parser.add_argument('--load_model', default='./results/train_sequence/transformer_binary.pth', help='Path to pre-trained model') 
+    parser.add_argument('--load_model', default='./checkpoint/sequence/best.pth', help='Path to pre-trained model')
     parser.add_argument('--out', default='out', help='directory to save outputs')
 
     args = parser.parse_args()
@@ -158,7 +158,7 @@ def main():
 
     if 'module.' in next(iter(state_dict.keys())):
         state_dict = {k.replace('module.', ''): v for k, v in state_dict.items()}
-    
+
     model.load_state_dict(state_dict)
     model.to(device)
 
