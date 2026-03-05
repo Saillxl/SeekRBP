@@ -3,7 +3,6 @@ import argparse
 import random
 import numpy as np
 import torch
-from torch import nn
 from sklearn.metrics import classification_report, accuracy_score, f1_score, precision_score
 from torch.utils.data import DataLoader
 from model import *
@@ -17,27 +16,33 @@ def set_seed(seed=42):
 
 
 class PtFeatureDataset(torch.utils.data.Dataset):
+    """
+    Build dataset by scanning .pt files in pos_dir and neg_dir.
+    pos_dir/*.pt -> label 1
+    neg_dir/*.pt -> label 0
+    """
 
-    def __init__(self, pos_txt: str, neg_txt: str, pos_dir: str, neg_dir: str):
+    def __init__(self, pos_dir: str, neg_dir: str):
         self.items = []
-        with open(pos_txt, 'r') as f:
-            pos_samples = [line.strip() for line in f.readlines()]
-        with open(neg_txt, 'r') as f:
-            neg_samples = [line.strip() for line in f.readlines()]
 
-        # Based on name matching, .pt file
-        for sample in pos_samples:
-            pos_path = os.path.join(pos_dir, f"{sample}.pt")
-            if os.path.exists(pos_path):
-                self.items.append((pos_path, 1))
+        # collect all .pt files
+        if pos_dir and os.path.isdir(pos_dir):
+            pos_files = sorted([f for f in os.listdir(pos_dir) if f.endswith(".pt")])
+            for fname in pos_files:
+                self.items.append((os.path.join(pos_dir, fname), 1))
 
-        for sample in neg_samples:
-            neg_path = os.path.join(neg_dir, f"{sample}.pt")
-            if os.path.exists(neg_path):
-                self.items.append((neg_path, 0))
+        if neg_dir and os.path.isdir(neg_dir):
+            neg_files = sorted([f for f in os.listdir(neg_dir) if f.endswith(".pt")])
+            for fname in neg_files:
+                self.items.append((os.path.join(neg_dir, fname), 0))
 
+        if len(self.items) == 0:
+            raise RuntimeError(
+                f"No .pt files found. pos_dir={pos_dir}, neg_dir={neg_dir}"
+            )
+
+        # probe to get shape
         probe = torch.load(self.items[0][0], map_location="cpu")
-
         self.seq_len = probe.shape[0]
         self.embed_dim = probe.shape[1]
 
@@ -64,7 +69,6 @@ def collate_skip_none(batch):
 def evaluate(model, dataloader, device):
     model.eval()
     y_true, y_pred = [], []
-    y_score = []
     total_loss = 0.0
     criterion = torch.nn.CrossEntropyLoss()
 
@@ -84,8 +88,7 @@ def evaluate(model, dataloader, device):
             y_pred.extend(preds)
             y_true.extend(y.cpu().numpy())
 
-
-    avg_loss = total_loss / len(dataloader)
+    avg_loss = total_loss / max(1, len(dataloader))
     acc = accuracy_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred, average='macro')
     prec = precision_score(y_true, y_pred, average='macro', zero_division=0)
@@ -94,16 +97,13 @@ def evaluate(model, dataloader, device):
 
 def main():
     parser = argparse.ArgumentParser(description="Test Transformer classifier (binary/multi) on ESM features.")
-    parser.add_argument('--pos_txt',
-                        default='./dataset/pos_trainval_sets/test_set.txt',
-                        help='positive samples txt')
-    parser.add_argument('--neg_txt',
-                        default='./dataset/neg_trainval_sets/test_set.txt',
-                        help='negative samples txt')
-    parser.add_argument('--pos_dir', default='./pos_esm2_fea',
+
+    # removed pos_txt / neg_txt
+    parser.add_argument('--pos_dir', default='./sequence_features/pos_esm2_fea',
                         help='positive .pt features directory')
-    parser.add_argument('--neg_dir', default='./neg_esm2_fea',
+    parser.add_argument('--neg_dir', default='./sequence_features/neg_esm2_fea',
                         help='negative .pt features directory')
+
     parser.add_argument('--task', default='binary', choices=['binary', 'multi'])
     parser.add_argument('--batch_size', type=int, default=32)
     parser.add_argument('--dropout', type=float, default=0.2)
@@ -113,7 +113,7 @@ def main():
     parser.add_argument('--num_workers', type=int, default=0)
     parser.add_argument('--device', default=None, help='cpu / cuda / cuda:0 ...')
     parser.add_argument('--load_model', default='./checkpoint/sequence/best.pth', help='Path to pre-trained model')
-    parser.add_argument('--out', default='./results/test_sequence', help='directory to save outputs')
+    parser.add_argument('--out', default='results', help='directory to save outputs')
 
     args = parser.parse_args()
     set_seed(args.seed)
@@ -126,8 +126,8 @@ def main():
     print(f"Device: {device}")
 
     test_dataset = PtFeatureDataset(
-        pos_txt=args.pos_txt, neg_txt=args.neg_txt,
-        pos_dir=args.pos_dir, neg_dir=args.neg_dir
+        pos_dir=args.pos_dir,
+        neg_dir=args.neg_dir
     )
 
     test_loader = DataLoader(
@@ -138,8 +138,9 @@ def main():
         collate_fn=collate_skip_none
     )
 
-    num_classes = 2 if args.task == 'binary' else len(set([y for _, y in test_dataset]))
+    num_classes = 2 if args.task == 'binary' else len(set([y for _, y in test_dataset.items]))
     print(f"seq_len={test_dataset.seq_len}, embed_dim={test_dataset.embed_dim}, num_classes={num_classes}")
+    print(f"Loaded items: {len(test_dataset)} (pos+neg)")
 
     model = Transformer(
         src_vocab_size=test_dataset.embed_dim,
@@ -154,16 +155,16 @@ def main():
         forward_expansion=4,
     )
 
-    state_dict = torch.load(args.load_model)
+    state_dict = torch.load(args.load_model, map_location="cpu")
 
-    if 'module.' in next(iter(state_dict.keys())):
+    if len(state_dict) > 0 and 'module.' in next(iter(state_dict.keys())):
         state_dict = {k.replace('module.', ''): v for k, v in state_dict.items()}
 
     model.load_state_dict(state_dict)
     model.to(device)
 
     avg_loss, acc, f1, prec, y_true, y_pred, y_score = evaluate(
-    model, test_loader, device
+        model, test_loader, device
     )
 
     print(f"Test Loss: {avg_loss:.4f} | Accuracy: {acc:.4f} | F1: {f1:.4f} | Precision: {prec:.4f}")
