@@ -61,7 +61,7 @@ python train_sequence.py \
   --out ./results/train_sequence/ \
 ```
 ### 🧪 3. Testing
-Download checkpoint/train from scratch, then run test_sequence.py
+Download checkpoint/train from scratch, then run test_sequence.py.
 ```
 python test_sequence.py 
 ```
@@ -85,7 +85,7 @@ python train_structure.py \
   --outdir ./results/train_structure
 ```
 ### 🧪 3. Testing
-Download checkpoint/train from scratch, then run test_structure.py
+Download checkpoint/train from scratch, then run test_structure.py.
 ```
 python test_dual.py
 ```
@@ -116,7 +116,7 @@ python train_dual.py \
   --outdir ./results/train_dual
 ```
 ### 🧪 3. Testing
-Download checkpoint/train from scratch, then run test_dual.py
+Download checkpoint/train from scratch, then run test_dual.py.
 ```
 python test_dual.py 
 ```
