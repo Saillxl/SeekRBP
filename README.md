@@ -29,7 +29,7 @@ cd SeekRBP/
 ```
 ---
 
-## 📑 Dataset Preparation
+## 📑 Dataset & Checkpoint
 👉 **[Download here](https://drive.google.com/drive/folders/1-zqY5z5hV30-IFKK46SElF9awa3Zf4qR)**
 
 
@@ -61,13 +61,9 @@ python train_sequence.py \
   --out ./results/train_sequence/ \
 ```
 ### 🧪 3. Testing
-Run test_sequence.py
+Download checkpoint/train from scratch, then run test_sequence.py
 ```
-python test_sequence.py \
-  --pos_dir ./sequence_features/pos_esm2_fea \
-  --neg_dir ./sequence_features/neg_esm2_fea \
-  --load_model ./results/train_sequence/transformer_binary.pth \
-  --out ./results/test_sequence
+python test_sequence.py 
 ```
 ## 🟢 Use structural information only
 This part does not use dynamic negative sampling.
@@ -89,13 +85,9 @@ python train_structure.py \
   --outdir ./results/train_structure
 ```
 ### 🧪 3. Testing
-Run test_structure.py
+Download checkpoint/train from scratch, then run test_structure.py
 ```
-python test_dual.py \
-  --pos3d ./structure_features/pos_test \
-  --neg3d ./structure_features/neg_test \
-  --ckpt ./results/train_structure/transformer_binary.pth \
-  --outdir ./results/test_structure
+python test_dual.py
 ```
 
 ## 🔵 Use sequential information and structural information
@@ -124,15 +116,9 @@ python train_dual.py \
   --outdir ./results/train_dual
 ```
 ### 🧪 3. Testing
-Run test_dual.py
+Download checkpoint/train from scratch, then run test_dual.py
 ```
-python test_dual.py \
-  --pos3d ./structure_features/pos_test \
-  --neg3d ./structure_features/neg_test \
-  --all1d ./sequence_features/all_feature \
-  --ckpt ./results/train_dual/transformer_binary.pth \
-  --outdir ./results/test_dual
-
+python test_dual.py 
 ```
 ## 📌 Citation
 If you find this repository useful, please cite our paper(bibtex):
