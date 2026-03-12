@@ -8,8 +8,6 @@
 <p align="center">
   <img src="./framework.png" alt="framework" width="800">
 </p>
-Bacteriophages are the most abundant and genetically diverse biological entities on Earth and play a central role in regulating bacterial populations and shaping microbial ecosystems. Many important applications of phages, including phage therapy, biocontrol, and microbiome engineering, rely on their specific interactions with bacterial hosts. These interactions are encoded in phage genomes, which contain a large number of proteins with potential biological and biotechnological value. However, most phage-encoded proteins remain poorly annotated, limiting the effective use of phages, especially under the growing threat of antimicrobial resistance.
-
 Receptor-binding proteins (RBPs) are key mediators of phage–host interactions, as they initiate infection by recognizing and binding bacterial surface receptors. Accurate identification of RBPs is therefore essential for host prediction and downstream phage applications. This task is challenging due to extreme sequence diversity, rapid phage–host co-evolution, and severe class imbalance, where RBPs represent only a small fraction of phage proteins.
 
 **SeekRBP** addresses these challenges by modeling RBP identification as a sequential decision-making problem. The framework combines sequence and structure representations with a reinforcement learning–inspired adaptive sampling strategy to improve recall and robustness in highly imbalanced settings.
@@ -40,6 +38,9 @@ conda create -n SeekRBP python=3.10
 conda activate SeekRBP
 pip install -r requirements.txt
 ```
+
+## ⚡ Quick Start
+For the fastest way to run a minimal test and verify the environment, see [example.md](./example.md)
 
 ## 🟠 Use sequential information only
 ### 🛠️ 1. Preparae features
