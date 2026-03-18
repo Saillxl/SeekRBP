@@ -1,9 +1,9 @@
 # Examples: run tests on provided sample features
 
-- Uses the **sample feature files already included** in this repo:
+- Use the **sample feature files already included** in this repo:
   - `sequence_features/` (ESM2 `.pt` features)
   - `structure_features/` (SaProt `.npy` features)
-- Uses the **pretrained checkpoints included** in Google drive:
+- Download and extract the **pretrained checkpoints included** in Google drive:
   - `checkpoint/sequence/best.pth`
   - `checkpoint/structure/best.pth`
   - `checkpoint/dual/best.pth`
