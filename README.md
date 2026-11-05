@@ -1,5 +1,5 @@
 # SeekRBP
-📄 Published in **Bioinformatics**   
+📄 Published in **Bioinformatics (2026, CCF A)**   
 🔗 [Paper Link]()  
 
 ---
