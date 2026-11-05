@@ -1,5 +1,5 @@
 # SeekRBP
-📄 Published in **Bioinformatic**   
+📄 Published in **Bioinformatics**   
 🔗 [Paper Link]()  
 
 ---
