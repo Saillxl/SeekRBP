@@ -1,4 +1,8 @@
-# SeekRBP
+# SeekRBP: Leveraging Sequence-Structure Integration with Reinforcement Learning for Receptor-Binding Protein Identification
+
+[![Paper](https://img.shields.io/badge/Bioinformatics-2026-blue)](https://academic.oup.com/bioinformatics/article/42/11/btag813/9027845)
+[![CCF](https://img.shields.io/badge/CCF-A-red.svg)](https://www.ccf.org.cn/)
+
 📄 Published in **Bioinformatics (2026, CCF A)**   
 🔗 [Paper Link](https://academic.oup.com/bioinformatics/article/42/11/btag813/9027845)  
 
