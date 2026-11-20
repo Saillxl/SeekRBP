@@ -1,6 +1,6 @@
 # SeekRBP
 📄 Published in **Bioinformatics (2026, CCF A)**   
-🔗 [Paper Link]()  
+🔗 [Paper Link](https://academic.oup.com/bioinformatics/article/42/11/btag813/9027845)  
 
 ---
 
