@@ -128,7 +128,21 @@ python test_dual.py
 ## 📌 Citation
 If you find this repository useful, please cite our paper(bibtex):
 ```
-
+@article{10.1093/bioinformatics/btag813,
+    author = {Luo, Xiling and Ou-Yang, Le and Shen, Yang and Guan, Jiaojiao and Cai, Dehan and Zhang, Jun and Xing, Guoliang and Sun, Yanni and Shang, Jiayu},
+    title = {SeekRBP: leveraging sequence–structure integration with reinforcement learning for receptor-binding protein identification},
+    journal = {Bioinformatics},
+    volume = {42},
+    number = {11},
+    pages = {btag813},
+    year = {2026},
+    month = {11},
+    abstract = {Receptor-binding proteins (RBPs) initiate viral infection and determine host specificity, serving as key targets for phage engineering and therapy. However, the identification of RBPs is complicated by their extreme sequence divergence, which often renders traditional homology-based alignment methods ineffective. While machine learning offers a promising alternative, such approaches struggle with severe class imbalance and the difficulty of selecting informative negative samples from heterogeneous tail proteins. Existing methods often fail to balance learning from these “hard negatives” while maintaining generalization.We present SeekRBP, a sequence–structure framework that models negative sampling as a sequential decision-making problem. By employing a multi-armed bandit strategy, SeekRBP dynamically prioritizes informative non-RBP sequences based on real-time training feedback, complemented by a multimodal fusion of protein language and structural embeddings. Benchmarking demonstrates that SeekRBP consistently outperforms static sampling strategies. Furthermore, a case study on Vibrio phages validates that SeekRBP effectively identifies RBPs to improve host prediction, highlighting its potential for large-scale annotation and synthetic biology applications.The source code of SeekRBP is available via: https://github.com/Saillxl/SeekRBP.},
+    issn = {1367-4811},
+    doi = {10.1093/bioinformatics/btag813},
+    url = {https://doi.org/10.1093/bioinformatics/btag813},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/42/11/btag813/73386202/btag813.pdf},
+}
 ```
 
 ## 🙏 Acknowledgement
